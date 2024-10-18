@@ -79,5 +79,8 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     // window for screen
     implementation(libs.accompanist.insets)
+    // material
+    implementation(libs.androidx.material)
+
 
 }
