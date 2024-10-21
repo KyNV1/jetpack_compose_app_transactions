@@ -81,6 +81,9 @@ dependencies {
     implementation(libs.accompanist.insets)
     // material
     implementation(libs.androidx.material)
+    // material icon
+    implementation(libs.androidx.material.icons.extended)
+
 
 
 }

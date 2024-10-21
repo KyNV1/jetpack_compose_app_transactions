@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,14 +14,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Icon
@@ -36,15 +37,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpack_compose_app_transaction.R
+import com.example.jetpack_compose_app_transaction.domain.model.Transaction
+import com.example.jetpack_compose_app_transaction.presentation.common.components.TransactionCard
+import com.example.jetpack_compose_app_transaction.utils.Screen
 
 @Composable
 fun Dashboard(
-    modifier: Modifier = Modifier
+    navController: NavController,
+
+    modifier: Modifier = Modifier,
 ) {
+    val recentList: List<Transaction> = dummyRecentTransactionListState
+
     Column(
         modifier = modifier
-            .systemBarsPadding()
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
     ) {
@@ -53,7 +62,7 @@ fun Dashboard(
             horizontalArrangement = Arrangement.End
         ) {
             IconButton(onClick = {
-
+                navController.navigate(Screen.About.route)
             }) {
                 Icon(
                     imageVector = Icons.Default.Info,
@@ -104,9 +113,29 @@ fun Dashboard(
         }
         Spacer(modifier = Modifier.height(4.dp))
         Row(
-            modifier = Modifier.fillMaxWidth().padding(8.dp,16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp, 16.dp)
         ) {
             Text(text = "Recent Transactions...")
+        }
+        if (!recentList.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "No recent transactions...", color = Color(0xFFD16C97))
+            }
+
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(8.dp, 0.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+               items(recentList){
+                   TransactionCard(transaction = it)
+               }
+            }
         }
     }
 }
@@ -147,5 +176,5 @@ fun SummaryMiniCard(
 @Preview
 @Composable
 private fun DashboardPreview() {
-    Dashboard()
+    Dashboard(navController = rememberNavController())
 }
