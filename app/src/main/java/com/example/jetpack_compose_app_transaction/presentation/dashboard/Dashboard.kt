@@ -47,7 +47,6 @@ import com.example.jetpack_compose_app_transaction.utils.Screen
 @Composable
 fun Dashboard(
     navController: NavController,
-
     modifier: Modifier = Modifier,
 ) {
     val recentList: List<Transaction> = dummyRecentTransactionListState

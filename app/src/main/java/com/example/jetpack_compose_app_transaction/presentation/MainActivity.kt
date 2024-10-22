@@ -2,18 +2,24 @@ package com.example.jetpack_compose_app_transaction.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -23,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -34,6 +41,7 @@ import androidx.room.util.convertByteToUUID
 import com.example.jetpack_compose_app_transaction.R
 import com.example.jetpack_compose_app_transaction.domain.model.Transaction
 import com.example.jetpack_compose_app_transaction.presentation.abount.AboutScreen
+import com.example.jetpack_compose_app_transaction.presentation.add_edit_transaction.AddEditTransaction
 import com.example.jetpack_compose_app_transaction.presentation.dashboard.Dashboard
 import com.example.jetpack_compose_app_transaction.presentation.transactions.TransactionScreen
 import com.example.jetpack_compose_app_transaction.ui.theme.Jetpack_compose_app_transactionTheme
@@ -71,6 +79,19 @@ fun SetupNavigation(modifier: Modifier = Modifier) {
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     BottomBar(navController = navController)
+                    Column {
+                        FloatingActionButton(onClick = {
+                            navController.navigate(Screen.AddEditTransaction.route)
+                        }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Add,
+                                contentDescription = "Add transaction",
+                                tint = Color.White
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+
                 }
             }
 
@@ -115,7 +136,6 @@ fun BottomBar(navController: NavHostController) {
                     launchSingleTop = true
                     restoreState = true
                 }
-
             }
         )
 
@@ -164,9 +184,13 @@ fun NavigationGraph(
         composable(route = Screen.About.route) {
             AboutScreen()
         }
-        composable(route = Screen.Transaction.route){
+        composable(route = Screen.AddEditTransaction.route) {
+            AddEditTransaction()
+        }
+        composable(route = Screen.Transaction.route) {
             TransactionScreen()
         }
+
 
     }
 

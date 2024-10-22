@@ -83,7 +83,6 @@ dependencies {
     implementation(libs.androidx.material)
     // material icon
     implementation(libs.androidx.material.icons.extended)
-
-
-
+    // navigation compose
+    implementation(libs.androidx.hilt.navigation.compose.v110)
 }

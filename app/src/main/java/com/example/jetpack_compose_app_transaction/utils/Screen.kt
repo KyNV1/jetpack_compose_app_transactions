@@ -4,4 +4,5 @@ sealed class Screen(val route:String) {
     object Dashboard: Screen("dash_screen")
     object About:Screen("about_screen")
     object Transaction:Screen("transaction")
+    object AddEditTransaction:Screen("add_edit_transaction")
 }
