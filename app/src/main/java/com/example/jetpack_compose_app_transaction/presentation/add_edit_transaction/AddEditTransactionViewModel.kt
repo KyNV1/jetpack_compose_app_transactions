@@ -23,7 +23,28 @@ class AddEditTransactionViewModel @Inject constructor(
             hint = "Enter a Amount..."
         )
     )
-    val amount:State<AddEditTransactionTextFieldState> = _amount
+    val amount: State<AddEditTransactionTextFieldState> = _amount
+
+    private val _tags = mutableStateOf(
+        AddEditTransactionTextFieldState(
+            hint = "Tags"
+        )
+    )
+    val tags: State<AddEditTransactionTextFieldState> = _tags
+
+    private val _notes = mutableStateOf(
+        AddEditTransactionTextFieldState(
+            hint = "Type a Note..."
+        )
+    )
+    val note: State<AddEditTransactionTextFieldState> = _notes
+
+    private val _transactionType = mutableStateOf(
+        AddEditTransactionDropDownMenuState(
+            hint = "Selection..."
+        )
+    )
+    val transactionType: State<AddEditTransactionDropDownMenuState> = _transactionType
 
     fun onEvent(event: AddEditTransactionEvent) {
         when (event) {
@@ -36,6 +57,36 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.EnteredAmount -> {
                 _amount.value = amount.value.copy(
                     text = event.value
+                )
+            }
+
+            is AddEditTransactionEvent.EnterTags -> {
+                _tags.value = tags.value.copy(
+                    text = event.value
+                )
+            }
+
+            is AddEditTransactionEvent.EnterNote -> {
+                _notes.value = note.value.copy(
+                    text = event.value
+                )
+            }
+
+            is AddEditTransactionEvent.ChangeSelectedOption -> {
+                _transactionType.value = transactionType.value.copy(
+                    selectedOption = event.value
+                )
+            }
+
+            AddEditTransactionEvent.OnDismissRequest -> {
+                _transactionType.value = transactionType.value.copy(
+                    isExpensed = false
+                )
+            }
+
+            AddEditTransactionEvent.OnExpandedChange -> {
+                _transactionType.value = transactionType.value.copy(
+                    isExpensed = !transactionType.value.isExpensed
                 )
             }
         }

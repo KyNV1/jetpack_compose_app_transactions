@@ -2,7 +2,6 @@ package com.example.jetpack_compose_app_transaction.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -30,16 +29,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.room.util.convertByteToUUID
 import com.example.jetpack_compose_app_transaction.R
-import com.example.jetpack_compose_app_transaction.domain.model.Transaction
 import com.example.jetpack_compose_app_transaction.presentation.abount.AboutScreen
 import com.example.jetpack_compose_app_transaction.presentation.add_edit_transaction.AddEditTransaction
 import com.example.jetpack_compose_app_transaction.presentation.dashboard.Dashboard

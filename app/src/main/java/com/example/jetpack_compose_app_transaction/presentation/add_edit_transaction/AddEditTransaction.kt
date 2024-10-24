@@ -11,19 +11,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Backup
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -31,18 +37,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.jetpack_compose_app_transaction.presentation.common.transactionTypes
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddEditTransaction(
     viewModel: AddEditTransactionViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
-    var titleState = remember {
-        mutableStateOf("")
+    var expanded by remember {
+        mutableStateOf(false)
     }
+    var selectionOptionText by remember {
+        mutableStateOf("chon mot tuy chon")
+    }
+    val options = listOf(
+        "option 1",
+        "option 2",
+        "option 3"
+    )
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -57,7 +72,7 @@ fun AddEditTransaction(
             IconButton(onClick = {
 
             }) {
-                Icon(imageVector = Icons.Outlined.Backup, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
             }
             Text("Transaction")
             Spacer(modifier = Modifier.width(36.dp))
@@ -102,8 +117,9 @@ fun AddEditTransaction(
                     onValueChange = {
                         viewModel.onEvent(AddEditTransactionEvent.EnteredAmount(it))
                     },
+                    modifier = Modifier.width(280.dp),
                     placeholder = {
-                        Text(text = viewModel.amount.value.hint,modifier = Modifier.alpha(0.5f))
+                        Text(text = viewModel.amount.value.hint, modifier = Modifier.alpha(0.5f))
                     },
                     shape = RoundedCornerShape(16.dp),
                     colors = TextFieldDefaults.textFieldColors(
@@ -118,13 +134,103 @@ fun AddEditTransaction(
                     ),
                     singleLine = true
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+                ExposedDropdownMenuBox(
+                    expanded = viewModel.transactionType.value.isExpensed,
+                    onExpandedChange = {
+                        viewModel.onEvent(AddEditTransactionEvent.OnExpandedChange)
+                    },
+                    modifier = Modifier.width(280.dp)
+                ) {
+                    TextField(
+                        value = viewModel.transactionType.value.selectedOption,
+                        onValueChange = { },
+                        readOnly = true,
+                        placeholder = {
+                            Text(
+                                text = viewModel.transactionType.value.hint,
+                                modifier = Modifier.alpha(0.7f)
+                            )
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = viewModel.transactionType.value.isExpensed
+                            )
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.White,
+                            cursorColor = Color.White,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedLabelColor = Color.Transparent
+                        ),
+                        shape = RoundedCornerShape(16.dp),
+                    )
+                    // Nội dung của menu thả xuống
+                    ExposedDropdownMenu(
+                        expanded = viewModel.transactionType.value.isExpensed,
+                        onDismissRequest = {
+                            viewModel.onEvent(AddEditTransactionEvent.OnDismissRequest)
+                        }
+                    ) {
+                        transactionTypes.forEach { option ->
+                            DropdownMenuItem(onClick = {
+                                viewModel.onEvent(
+                                    AddEditTransactionEvent.ChangeSelectedOption(
+                                        option
+                                    )
+                                )
+                                viewModel.onEvent(AddEditTransactionEvent.OnDismissRequest)
+                            }) {
+                                Text(text = option)
+                            }
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = viewModel.tags.value.text, onValueChange = {
+                        viewModel.onEvent(AddEditTransactionEvent.EnterTags(it))
+                    },
+                    placeholder = {
+                        Text(text = viewModel.tags.value.hint, modifier = Modifier.alpha(0.5f))
+                    },
+                    modifier = Modifier.width(280.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        cursorColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedLabelColor = Color.Transparent,
+                        backgroundColor = Color.White
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next
+                    ),
+                    singleLine = true
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = viewModel.note.value.text,
+                    onValueChange = {
+                        viewModel.onEvent(AddEditTransactionEvent.EnterNote(it))
+                    },
+                    modifier = Modifier.width(280.dp),
+                    placeholder = {
+                        Text(text = viewModel.note.value.hint, modifier = Modifier.alpha(0.5f))
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        cursorColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedLabelColor = Color.Transparent,
+                        backgroundColor = Color.White
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next
+                    ),
+                    singleLine = true
+                )
+
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun AddEditTransactionPreview() {
-    //AddEditTransaction()
 }
