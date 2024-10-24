@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.jetpack_compose_app_transaction.domain.model.Transaction
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TransactionDao {
@@ -17,7 +18,7 @@ interface TransactionDao {
     suspend fun updateTransaction(transaction: Transaction)
 
     @Query("SELECT * FROM `TRANSACTION`")
-    suspend fun getTransactions():List<Transaction>
+    suspend fun getTransactions():Flow<List<Transaction>>
 
     @Delete
     suspend fun deleteTransaction(transaction: Transaction)

@@ -3,6 +3,7 @@ package com.example.jetpack_compose_app_transaction.data.repository
 import com.example.jetpack_compose_app_transaction.data.data_source.TransactionDao
 import com.example.jetpack_compose_app_transaction.domain.model.Transaction
 import com.example.jetpack_compose_app_transaction.domain.repository.TransactionRepository
+import kotlinx.coroutines.flow.Flow
 
 class TransactionRepositoryImpl(
     private val dao: TransactionDao
@@ -15,9 +16,10 @@ class TransactionRepositoryImpl(
         dao.updateTransaction(transaction)
     }
 
-    override suspend fun getTransactions(): List<Transaction> {
+    override suspend fun getTransactions(): Flow<List<Transaction>> {
         return dao.getTransactions()
     }
+
 
     override suspend fun deleteTransaction(transaction: Transaction) {
         dao.deleteTransaction(transaction)

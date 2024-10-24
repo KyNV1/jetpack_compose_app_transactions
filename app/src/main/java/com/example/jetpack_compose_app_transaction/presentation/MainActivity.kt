@@ -181,13 +181,11 @@ fun NavigationGraph(
             AboutScreen()
         }
         composable(route = Screen.AddEditTransaction.route) {
-            AddEditTransaction()
+            AddEditTransaction(navHostController = navController)
         }
         composable(route = Screen.Transaction.route) {
             TransactionScreen()
         }
-
-
     }
 
 }

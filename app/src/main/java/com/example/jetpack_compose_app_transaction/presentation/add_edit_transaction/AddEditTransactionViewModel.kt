@@ -1,10 +1,15 @@
 package com.example.jetpack_compose_app_transaction.presentation.add_edit_transaction
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.jetpack_compose_app_transaction.domain.model.Transaction
 import com.example.jetpack_compose_app_transaction.domain.repository.TransactionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -88,6 +93,34 @@ class AddEditTransactionViewModel @Inject constructor(
                 _transactionType.value = transactionType.value.copy(
                     isExpensed = !transactionType.value.isExpensed
                 )
+            }
+
+            is AddEditTransactionEvent.SaveEditTransaction -> {
+                if (
+                    title.value.text != "" || amount.value.text != "" ||
+                    transactionType.value.selectedOption != "" ||
+                    tags.value.text != "" || note.value.text != ""
+                ) {
+                    viewModelScope.launch {
+                        repository.insertTransaction(
+                            Transaction(
+                                title = title.value.text,
+                                amount = amount.value.text.toLong(),
+                                transactionType = transactionType.value.selectedOption,
+                                tags = tags.value.text,
+                                date = getFormattedTime(),
+                                note = note.value.text
+                            )
+                        )
+                    }
+                    event.navHostController.navigateUp()
+                } else {
+                    Toast.makeText(
+                        event.context,
+                        "Please fill all the fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }

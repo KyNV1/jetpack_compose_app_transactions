@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpack_compose_app_transaction.R
@@ -47,6 +48,7 @@ import com.example.jetpack_compose_app_transaction.utils.Screen
 @Composable
 fun Dashboard(
     navController: NavController,
+    viewModel: DashboardViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
     val recentList: List<Transaction> = dummyRecentTransactionListState

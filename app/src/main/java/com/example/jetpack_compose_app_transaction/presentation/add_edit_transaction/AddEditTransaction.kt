@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
@@ -35,29 +37,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.jetpack_compose_app_transaction.presentation.common.transactionTypes
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddEditTransaction(
     viewModel: AddEditTransactionViewModel = hiltViewModel(),
+    navHostController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    var expanded by remember {
-        mutableStateOf(false)
-    }
-    var selectionOptionText by remember {
-        mutableStateOf("chon mot tuy chon")
-    }
-    val options = listOf(
-        "option 1",
-        "option 2",
-        "option 3"
-    )
+    val context = LocalContext.current
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -229,7 +224,23 @@ fun AddEditTransaction(
                     ),
                     singleLine = true
                 )
-
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        viewModel.onEvent(
+                            AddEditTransactionEvent.SaveEditTransaction(
+                                context = context,
+                                navHostController = navHostController
+                            )
+                        )
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = Color.White,
+                        backgroundColor = Color(0xFF243D25)
+                    )
+                ) {
+                    Text(text = "SAVE")
+                }
             }
         }
     }
