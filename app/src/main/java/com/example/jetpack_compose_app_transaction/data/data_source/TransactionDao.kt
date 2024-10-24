@@ -18,7 +18,7 @@ interface TransactionDao {
     suspend fun updateTransaction(transaction: Transaction)
 
     @Query("SELECT * FROM `TRANSACTION`")
-    suspend fun getTransactions():Flow<List<Transaction>>
+    fun getTransactions():Flow<List<Transaction>>
 
     @Delete
     suspend fun deleteTransaction(transaction: Transaction)

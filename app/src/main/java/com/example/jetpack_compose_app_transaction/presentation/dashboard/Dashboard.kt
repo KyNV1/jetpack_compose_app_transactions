@@ -21,6 +21,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.ArrowDownward
+import androidx.compose.material.icons.outlined.ArrowUpward
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Icon
@@ -51,6 +53,7 @@ fun Dashboard(
     modifier: Modifier = Modifier,
 ) {
     val recentList by viewModel.recentTransactionListState
+    val overviewList by viewModel.overViewCardState
 
     Column(
         modifier = modifier
@@ -86,23 +89,23 @@ fun Dashboard(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(text = stringResource(R.string.total_balance))
-                    Text("$23")
+                    Text(text = "${overviewList.totalBalance}")
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         SummaryMiniCard(
                             colors = Color(0xFF00CB51),
-                            imageVector = Icons.Outlined.KeyboardArrowDown,
+                            imageVector = Icons.Outlined.ArrowDownward,
                             heading = "income",
-                            content = "$24"
+                            content = "+$${overviewList.income}"
                         )
 
                         SummaryMiniCard(
                             colors = Color(0xFF00CB51),
-                            imageVector = Icons.Outlined.KeyboardArrowUp,
-                            heading = "income",
-                            content = "$24"
+                            imageVector = Icons.Outlined.ArrowUpward,
+                            heading = "Expense",
+                            content = "-$${overviewList.expense}"
                         )
                     }
                 }
@@ -119,7 +122,7 @@ fun Dashboard(
         ) {
             Text(text = "Recent Transactions...")
         }
-        if (!recentList.list.isEmpty()) {
+        if (recentList.list.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -132,7 +135,9 @@ fun Dashboard(
                 contentPadding = PaddingValues(8.dp, 0.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-
+                items(recentList.list) {
+                    TransactionCard(it)
+                }
             }
         }
     }

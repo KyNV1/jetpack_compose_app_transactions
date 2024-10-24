@@ -39,4 +39,3 @@ class DashboardViewModel @Inject constructor(
         }
     }
 }
-}
