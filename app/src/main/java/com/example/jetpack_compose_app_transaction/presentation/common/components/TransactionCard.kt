@@ -32,12 +32,14 @@ import com.example.jetpack_compose_app_transaction.domain.model.Transaction
 fun TransactionCard(
     transaction: Transaction,
     modifier: Modifier = Modifier,
+    onClickItem:()->Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .clickable {
+                onClickItem()
             }
             .background(Color(0xFFD16C97))
             .padding(16.dp),

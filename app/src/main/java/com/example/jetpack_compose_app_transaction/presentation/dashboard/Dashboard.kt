@@ -135,8 +135,11 @@ fun Dashboard(
                 contentPadding = PaddingValues(8.dp, 0.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(recentList.list) {
-                    TransactionCard(it)
+                items(recentList.list) {transaction->
+                    TransactionCard(transaction){
+                        // transaction Detail
+                        navController.navigate(Screen.TransactionDetails.route)
+                    }
                 }
             }
         }

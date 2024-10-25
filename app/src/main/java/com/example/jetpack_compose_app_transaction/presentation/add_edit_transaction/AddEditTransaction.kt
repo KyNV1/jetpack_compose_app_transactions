@@ -65,7 +65,7 @@ fun AddEditTransaction(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-
+                navHostController.navigateUp()
             }) {
                 Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
             }

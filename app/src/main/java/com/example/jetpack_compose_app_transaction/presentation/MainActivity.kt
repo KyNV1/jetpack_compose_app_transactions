@@ -39,6 +39,7 @@ import com.example.jetpack_compose_app_transaction.R
 import com.example.jetpack_compose_app_transaction.presentation.abount.AboutScreen
 import com.example.jetpack_compose_app_transaction.presentation.add_edit_transaction.AddEditTransaction
 import com.example.jetpack_compose_app_transaction.presentation.dashboard.Dashboard
+import com.example.jetpack_compose_app_transaction.presentation.transaction_details.TransactionDetails
 import com.example.jetpack_compose_app_transaction.presentation.transactions.TransactionScreen
 import com.example.jetpack_compose_app_transaction.ui.theme.Jetpack_compose_app_transactionTheme
 import com.example.jetpack_compose_app_transaction.utils.Screen
@@ -185,6 +186,9 @@ fun NavigationGraph(
         }
         composable(route = Screen.Transaction.route) {
             TransactionScreen()
+        }
+        composable(route = Screen.TransactionDetails.route){
+            TransactionDetails(navHostController = navController)
         }
     }
 

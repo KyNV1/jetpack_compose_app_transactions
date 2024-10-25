@@ -35,7 +35,6 @@ class DashboardViewModel @Inject constructor(
                     list = transactions.takeLast(4).reversed()
                 )
             }
-
         }
     }
 }
