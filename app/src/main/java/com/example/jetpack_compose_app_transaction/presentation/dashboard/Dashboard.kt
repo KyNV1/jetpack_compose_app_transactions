@@ -1,5 +1,6 @@
 package com.example.jetpack_compose_app_transaction.presentation.dashboard
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -137,8 +138,8 @@ fun Dashboard(
             ) {
                 items(recentList.list) {transaction->
                     TransactionCard(transaction){
-                        // transaction Detail
-                        navController.navigate(Screen.TransactionDetails.route)
+                        Log.d("frank", "Dashboard: "+transaction.id)
+                        navController.navigate(Screen.TransactionDetails.route+"/${transaction.id}")
                     }
                 }
             }

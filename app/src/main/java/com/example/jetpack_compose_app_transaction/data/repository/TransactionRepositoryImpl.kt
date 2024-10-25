@@ -17,12 +17,16 @@ class TransactionRepositoryImpl(
     }
 
     override suspend fun getTransactions(): Flow<List<Transaction>> {
-        return dao.getTransactions()
+        return dao.getAllTransactions()
     }
 
 
     override suspend fun deleteTransaction(transaction: Transaction) {
         dao.deleteTransaction(transaction)
+    }
+
+    override suspend fun getTransactionById(id: Int): Flow<Transaction> {
+        return dao.getTransactionById(id)
     }
 
 

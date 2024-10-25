@@ -2,6 +2,7 @@ package com.example.jetpack_compose_app_transaction.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -31,10 +32,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.jetpack_compose_app_transaction.R
 import com.example.jetpack_compose_app_transaction.presentation.abount.AboutScreen
 import com.example.jetpack_compose_app_transaction.presentation.add_edit_transaction.AddEditTransaction
@@ -187,9 +190,19 @@ fun NavigationGraph(
         composable(route = Screen.Transaction.route) {
             TransactionScreen()
         }
-        composable(route = Screen.TransactionDetails.route){
+        composable(
+            route = Screen.TransactionDetails.route + "/{transactionId}",
+            arguments = listOf(
+                navArgument("transactionId"){
+                    type = NavType.IntType
+                }
+            )
+        ) {backStackEntry->
+            val transactionId = backStackEntry.arguments?.getInt("transactionId")
+            Log.d("frank", "NavigationGraph: "+transactionId)
             TransactionDetails(navHostController = navController)
         }
+
     }
 
 }
