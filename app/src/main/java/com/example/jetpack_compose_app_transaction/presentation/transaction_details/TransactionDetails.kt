@@ -29,14 +29,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.jetpack_compose_app_transaction.utils.Screen
 
 @Composable
 fun TransactionDetails(
-    navHostController: NavHostController,
+    navController: NavController,
+    viewModel: TransactionDetailsViewModel = hiltViewModel(),
+    transactionId: Int,
     modifier: Modifier = Modifier
-
 ) {
     Column(
         modifier = modifier
@@ -52,7 +56,7 @@ fun TransactionDetails(
         ) {
             IconButton(
                 onClick = {
-                    navHostController.navigateUp()
+                    navController.navigateUp()
                 }
             ) {
                 Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "Back to screen")
@@ -63,7 +67,9 @@ fun TransactionDetails(
             }
             Row {
                 IconButton(
-                    onClick = {}
+                    onClick = {
+                        viewModel.onEvent(TransactionDetailEvent.onDeleteTranaction(id = transactionId, navController = navController))
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,
@@ -93,8 +99,40 @@ fun TransactionDetails(
                 ) {
                     Spacer(modifier = Modifier.height(24.dp))
                     Column {
-                        Text(text = "Title")
+                        Text(text = "Title", color = Color.White.copy(0.7f))
+                        viewModel.currTransactionState.value.transaction?.let {
+                            Text(text = it.title, color = Color.White)
+                        }
                     }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column {
+                        Text(text = "Amount", color = Color.White.copy(0.7f))
+                        viewModel.currTransactionState.value.transaction?.let {
+                            Text(text = it.amount.toString(), color = Color.White)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column {
+                        Text(text = "TransactionType", color = Color.White.copy(0.7f))
+                        viewModel.currTransactionState.value.transaction?.let {
+                            Text(text = it.transactionType, color = Color.White)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column {
+                        Text(text = "When",color = Color.White.copy(0.7f))
+                        viewModel.currTransactionState.value.transaction?.let {
+                            Text(text = it.date,color = Color.White)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column {
+                        Text(text = "Note",color = Color.White.copy(0.7f))
+                        viewModel.currTransactionState.value.transaction?.let {
+                            Text(text = it.note, color = Color.White)
+                        }
+                    }
+
                 }
                 Row(
                     modifier = Modifier
@@ -104,7 +142,7 @@ fun TransactionDetails(
 
                 ) {
                     IconButton(onClick = {
-
+                        navController.navigate(Screen.AddEditTransaction.route)
                     }) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,
@@ -121,5 +159,4 @@ fun TransactionDetails(
 @Preview
 @Composable
 private fun TransactionDetailsPreview() {
-    TransactionDetails(navHostController = rememberNavController())
 }

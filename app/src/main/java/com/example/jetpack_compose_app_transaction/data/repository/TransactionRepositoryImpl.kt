@@ -20,9 +20,8 @@ class TransactionRepositoryImpl(
         return dao.getAllTransactions()
     }
 
-
-    override suspend fun deleteTransaction(transaction: Transaction) {
-        dao.deleteTransaction(transaction)
+    override suspend fun deleteTransactionById(id: Int) {
+        dao.deleteTransactionById(id)
     }
 
     override suspend fun getTransactionById(id: Int): Flow<Transaction> {

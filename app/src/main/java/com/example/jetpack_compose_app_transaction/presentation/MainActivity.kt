@@ -199,11 +199,9 @@ fun NavigationGraph(
             )
         ) {backStackEntry->
             val transactionId = backStackEntry.arguments?.getInt("transactionId")
-            Log.d("frank", "NavigationGraph: "+transactionId)
-            TransactionDetails(navHostController = navController)
+            transactionId?.let { TransactionDetails(navController = navController,transactionId = it) }
         }
 
     }
-
 }
 

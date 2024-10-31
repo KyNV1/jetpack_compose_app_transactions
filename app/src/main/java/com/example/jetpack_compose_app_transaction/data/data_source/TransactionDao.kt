@@ -20,12 +20,9 @@ interface TransactionDao {
     @Query("SELECT * FROM `TRANSACTION`")
     fun getAllTransactions():Flow<List<Transaction>>
 
-    @Delete
-    suspend fun deleteTransaction(transaction: Transaction)
+    @Query("DELETE FROM `TRANSACTION` WHERE id=:id")
+    suspend fun deleteTransactionById(id:Int)
 
     @Query("SELECT * FROM `Transaction` where id=:id")
     fun getTransactionById(id:Int):Flow<Transaction>
-
-
-
 }
