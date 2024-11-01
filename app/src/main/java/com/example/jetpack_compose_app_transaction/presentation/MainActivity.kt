@@ -81,7 +81,7 @@ fun SetupNavigation(modifier: Modifier = Modifier) {
                     BottomBar(navController = navController)
                     Column {
                         FloatingActionButton(onClick = {
-                            navController.navigate(Screen.AddEditTransaction.route)
+                            navController.navigate(Screen.AddEditTransaction.route + "/-1" + "/\"\"")
                         }) {
                             Icon(
                                 imageVector = Icons.Outlined.Add,
@@ -185,7 +185,7 @@ fun NavigationGraph(
             AboutScreen()
         }
         composable(
-            route = Screen.AddEditTransaction.route,
+            route = Screen.AddEditTransaction.route+"/{transactionId}/{previousScreen}",
             arguments = listOf(
                 navArgument(
                     name = "transactionId",
