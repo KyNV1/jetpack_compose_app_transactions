@@ -184,8 +184,31 @@ fun NavigationGraph(
         composable(route = Screen.About.route) {
             AboutScreen()
         }
-        composable(route = Screen.AddEditTransaction.route) {
-            AddEditTransaction(navHostController = navController)
+        composable(
+            route = Screen.AddEditTransaction.route,
+            arguments = listOf(
+                navArgument(
+                    name = "transactionId",
+                ){
+                    type = NavType.IntType
+                    defaultValue = -1
+                },
+                navArgument(
+                    name = "previousScreen"
+                ){
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )
+        ) {
+            val transactionId = it.arguments?.getInt("transactionId") ?: -1
+            val previousScreen = it.arguments?.getString("previousScreen") ?: ""
+            Log.d("frank", "NavigationGraph: $previousScreen")
+            AddEditTransaction(
+                navHostController = navController,
+                transactionId = transactionId,
+                previousScreen = previousScreen
+            )
         }
         composable(route = Screen.Transaction.route) {
             TransactionScreen()

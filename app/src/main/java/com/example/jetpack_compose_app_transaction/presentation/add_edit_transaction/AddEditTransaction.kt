@@ -50,6 +50,8 @@ import com.example.jetpack_compose_app_transaction.presentation.common.transacti
 fun AddEditTransaction(
     viewModel: AddEditTransactionViewModel = hiltViewModel(),
     navHostController: NavHostController,
+    transactionId:Int,
+    previousScreen:String,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current

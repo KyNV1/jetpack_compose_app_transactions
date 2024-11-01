@@ -142,7 +142,7 @@ fun TransactionDetails(
 
                 ) {
                     IconButton(onClick = {
-                        navController.navigate(Screen.AddEditTransaction.route)
+                        navController.navigate(Screen.AddEditTransaction.route + "/${transactionId}" + "/${Screen.TransactionDetails.route}")
                     }) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,

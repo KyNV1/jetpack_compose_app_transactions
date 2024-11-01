@@ -138,7 +138,6 @@ fun Dashboard(
             ) {
                 items(recentList.list) {transaction->
                     TransactionCard(transaction){
-                        Log.d("frank", "Dashboard: "+transaction.id)
                         navController.navigate(Screen.TransactionDetails.route+"/${transaction.id}")
                     }
                 }
